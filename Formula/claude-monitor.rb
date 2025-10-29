@@ -1,10 +1,10 @@
 class ClaudeMonitor < Formula
   desc "Real-time ClaudeCode status in your macOS menu bar"
   homepage "https://github.com/gwifloria/claude-monitor"
-  url "https://github.com/gwifloria/claude-monitor/archive/refs/tags/v0.2.5.tar.gz"
-  sha256 "c5f7935029365c91cca5800400170f960de89787f9d864aaca4973a09e8d206a"
+  url "https://github.com/gwifloria/claude-monitor/archive/refs/tags/v0.2.6.tar.gz"
+  sha256 "0938b683f532f51d3f01dff7cd2be70b99a8f04ef5c06b416bd124c8f75b7941"
   license "MIT"
-  version "0.2.5"
+  version "0.2.6"
 
   depends_on "jq"
 
