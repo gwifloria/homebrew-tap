@@ -2,7 +2,7 @@ class ClaudeMonitor < Formula
   desc "Real-time ClaudeCode status in your macOS menu bar"
   homepage "https://github.com/gwifloria/claude-monitor"
   url "https://github.com/gwifloria/claude-monitor/archive/refs/tags/v0.2.6.tar.gz"
-  sha256 "0938b683f532f51d3f01dff7cd2be70b99a8f04ef5c06b416bd124c8f75b7941"
+  sha256 ""
   license "MIT"
   version "0.2.6"
 
@@ -95,21 +95,28 @@ class ClaudeMonitor < Formula
           echo
           echo "Existing ClaudeCode hooks detected!"
           echo "How should we handle existing hooks?"
-          echo "1) Replace - Override existing hooks (recommended)"
-          echo "2) Skip - Keep existing hooks (monitor won't work)"
+          echo "1) Replace - Override existing hooks"
+          echo "2) Append - Chain with existing hooks (recommended)"
+          echo "3) Skip - Keep existing hooks only"
           echo
-          read -p "Choose option (1-2) [1]: " -n 1 -r
+          read -p "Choose option (1-3) [2]: " -n 1 -r
           echo
 
-          case "${REPLY:-1}" in
-              2)
-                  echo -e "${YELLOW}Keeping existing hooks - monitor may not work${NC}"
-                  ;;
-              *)
-                  echo -e "${BLUE}Updating hooks configuration...${NC}"
+          case "${REPLY:-2}" in
+              1)
+                  echo -e "${BLUE}Replacing existing hooks...${NC}"
                   "$CLAUDE_MONITOR_DIR/scripts/generate_settings.sh" merge "$CLAUDE_CONFIG_DIR/settings.json" replace > /tmp/claude_settings_$$.json
                   mv /tmp/claude_settings_$$.json "$CLAUDE_CONFIG_DIR/settings.json"
-                  echo -e "${GREEN}✅ Hooks configured${NC}"
+                  echo -e "${GREEN}✅ Hooks configured (replaced)${NC}"
+                  ;;
+              2)
+                  echo -e "${BLUE}Appending to existing hooks...${NC}"
+                  "$CLAUDE_MONITOR_DIR/scripts/generate_settings.sh" merge "$CLAUDE_CONFIG_DIR/settings.json" append > /tmp/claude_settings_$$.json
+                  mv /tmp/claude_settings_$$.json "$CLAUDE_CONFIG_DIR/settings.json"
+                  echo -e "${GREEN}✅ Hooks configured (appended)${NC}"
+                  ;;
+              3)
+                  echo -e "${YELLOW}Keeping existing hooks - monitor may not work${NC}"
                   ;;
           esac
       else
